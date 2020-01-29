@@ -6,8 +6,8 @@ const App = () => {
   return (
     <>
       <ClassExample />
-      <HookExample />
-      <TypeScriptExample />
+      {/* <HookExample />
+      <TypeScriptExample /> */}
     </>
   )
 }
