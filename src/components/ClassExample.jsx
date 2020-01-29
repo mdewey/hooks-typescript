@@ -4,7 +4,7 @@ export class ClassExample extends Component {
   state = {
     runs: [],
     newRun: {},
-    stats: {},
+    stats: { total: 0, averageDistance: 0 },
   }
 
   constructor(props) {
@@ -18,10 +18,10 @@ export class ClassExample extends Component {
     this.setState(
       {
         runs: [
-          { name: 'Lake', distance: 3.1 },
-          { name: 'Park', distance: 5 },
-          { name: 'Track', distance: 2 },
-          { name: 'Beach', distance: 13.1 },
+          { location: 'Lake', distance: 3.1 },
+          { location: 'Park', distance: 5 },
+          { location: 'Track', distance: 2 },
+          { location: 'Beach', distance: 13.1 },
         ],
       },
       () => {
