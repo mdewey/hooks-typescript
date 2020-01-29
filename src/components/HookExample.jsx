@@ -1,22 +1,23 @@
 import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 
 const HookExample = () => {
   const [runs, setRuns] = useState([])
   const [stats, setStats] = useState({ total: 0, averageDistance: 0 })
   const [newRun, setNewRun] = useState({})
 
+  const loadRuns = async () => {
+    const resp = await axios.get('https://localhost:5001/api/run')
+    setRuns(resp.data)
+  }
+
   useEffect(() => {
-    setRuns([
-      { location: 'Lake', distance: 3.1 },
-      { location: 'Park', distance: 5 },
-      { location: 'Track', distance: 2 },
-      { location: 'Beach', distance: 13.1 },
-    ])
+    loadRuns()
   }, [])
 
   useEffect(() => {
     const total = runs.reduce((acc, item) => acc + parseInt(item.distance), 0)
-    const averageDistance = total / runs.length
+    const averageDistance = (total / runs.length).toFixed(2)
     setStats({ total, averageDistance })
   }, [runs])
 
@@ -30,8 +31,12 @@ const HookExample = () => {
     })
   }
 
-  const addNewRunToRuns = e => {
+  const addNewRunToRuns = async e => {
     e.preventDefault()
+    const resp = await axios.post('https://localhost:5001/api/run', {
+      ...newRun,
+      distance: parseFloat(newRun.distance),
+    })
     setRuns([...runs.concat(newRun)])
     setNewRun({
       location: '',
@@ -44,6 +49,8 @@ const HookExample = () => {
       <h1>My runs this week</h1>
       <section className="stats">
         <h2>Total Miles: {stats.total}</h2>
+        <h2>Number of runs: {runs.length}</h2>
+
         <h2>Average Miles / Run: {stats.averageDistance}</h2>
       </section>
       <section>

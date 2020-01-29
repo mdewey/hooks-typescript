@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-
+import axios from 'axios'
 export class ClassExample extends Component {
   state = {
     runs: [],
@@ -14,15 +14,11 @@ export class ClassExample extends Component {
     this.getRunningStats = this.getRunningStats.bind(this)
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    const resp = await axios.get('https://localhost:5001/api/run')
     this.setState(
       {
-        runs: [
-          { location: 'Lake', distance: 3.1 },
-          { location: 'Park', distance: 5 },
-          { location: 'Track', distance: 2 },
-          { location: 'Beach', distance: 13.1 },
-        ],
+        runs: resp.data,
       },
       () => {
         this.setState({
@@ -42,12 +38,17 @@ export class ClassExample extends Component {
       (acc, item) => acc + parseInt(item.distance),
       0
     )
-    rv.averageDistance = rv.total / this.state.runs.length
+    rv.averageDistance = (rv.total / this.state.runs.length).toFixed(2)
     return rv
   }
 
-  addNewRunToRuns(e) {
+  async addNewRunToRuns(e) {
     e.preventDefault()
+    const resp = await axios.post('https://localhost:5001/api/run', {
+      ...this.state.newRun,
+      distance: parseFloat(this.state.newRun.distance),
+    })
+
     this.setState(
       {
         runs: this.state.runs.concat(this.state.newRun),
@@ -79,6 +80,7 @@ export class ClassExample extends Component {
         <h1>My runs this week</h1>
         <section className="stats">
           <h2>Total Miles: {this.state.stats.total}</h2>
+          <h2>Number of runs: {this.state.runs.length}</h2>
           <h2>Average Miles / Run: {this.state.stats.averageDistance}</h2>
         </section>
         <section>
@@ -107,7 +109,7 @@ export class ClassExample extends Component {
             {this.state.runs.map((run, i) => {
               return (
                 <li key={i}>
-                  <header>{run.name}</header>
+                  <header>{run.location}</header>
                   <main>{run.distance} miles</main>
                 </li>
               )
