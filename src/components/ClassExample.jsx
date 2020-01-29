@@ -75,9 +75,9 @@ export class ClassExample extends Component {
 
   render() {
     return (
-      <div>
+      <main>
         <h1>My runs this week</h1>
-        <section>
+        <section className="stats">
           <h2>Total Miles: {this.state.stats.total}</h2>
           <h2>Average Miles / Run: {this.state.stats.averageDistance}</h2>
         </section>
@@ -104,9 +104,9 @@ export class ClassExample extends Component {
         </section>
         <section>
           <ul>
-            {this.state.runs.map(run => {
+            {this.state.runs.map((run, i) => {
               return (
-                <li>
+                <li key={i}>
                   <header>{run.name}</header>
                   <main>{run.distance} miles</main>
                 </li>
@@ -114,7 +114,7 @@ export class ClassExample extends Component {
             })}
           </ul>
         </section>
-      </div>
+      </main>
     )
   }
 }

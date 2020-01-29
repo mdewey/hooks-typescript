@@ -49,10 +49,10 @@ const TypeScriptExample = () => {
   }
 
   return (
-    <div>
+    <main>
       <h1>My runs this week</h1>
       {stats ? (
-        <section>
+        <section className="stats">
           <h2>Total Miles: {stats.total}</h2>
           <h2>Average Miles / Run: {stats.averageDistance}</h2>
         </section>
@@ -77,14 +77,15 @@ const TypeScriptExample = () => {
             onChange={updateField}
             required
           />
+
           <button>ADD</button>
         </form>
       </section>
       <section>
         <ul>
-          {runs.map(run => {
+          {runs.map((run, i) => {
             return (
-              <li>
+              <li key={i}>
                 <header>{run.location}</header>
                 <main>{run.distance} miles</main>
               </li>
@@ -92,7 +93,7 @@ const TypeScriptExample = () => {
           })}
         </ul>
       </section>
-    </div>
+    </main>
   )
 }
 

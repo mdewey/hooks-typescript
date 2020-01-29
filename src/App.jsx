@@ -5,9 +5,9 @@ import TypeScriptExample from './components/TypeScriptExample'
 const App = () => {
   return (
     <>
-      {/* <ClassExample /> */}
+      <ClassExample />
       {/* <HookExample /> */}
-      <TypeScriptExample />
+      {/* <TypeScriptExample /> */}
     </>
   )
 }
